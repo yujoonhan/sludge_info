@@ -10,6 +10,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import com.greenart.service.CoronaInfoService;
+import com.greenart.service.CoronaInfoSidoService;
+import com.greenart.vo.CoronaInfoSidoVo;
 import com.greenart.vo.CoronaInfoVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import org.w3c.dom.NodeList;
 public class CoronaAPIController {
     @Autowired
     CoronaInfoService service;
+    CoronaInfoSidoService s_service;
 
     @GetMapping("/api/corona")
     public Map<String, Object> getCoronaInfo(
@@ -98,8 +101,8 @@ public class CoronaAPIController {
         StringBuilder urlBuilder = new StringBuilder("http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=3CID6KRU4kjF4jvHanoFBLwycg6Htt86aVfgEOgBmAecshZIcO5EC9UM9FhVGwAX2Zf%2B%2FrxgsJeUfled1zNS0w%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("startCreateDt","UTF-8") + "=" + URLEncoder.encode("20210810", "UTF-8")); /*검색할 생성일 범위의 시작*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("startCreateDt","UTF-8") + "=" + URLEncoder.encode("20210410", "UTF-8")); /*검색할 생성일 범위의 시작*/
         urlBuilder.append("&" + URLEncoder.encode("endCreateDt","UTF-8") + "=" + URLEncoder.encode("20210810", "UTF-8")); /*검색할 생성일 범위의 종료*/
         
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -108,6 +111,26 @@ public class CoronaAPIController {
 
         doc.getDocumentElement().normalize();
         NodeList nList = doc.getElementsByTagName("item");
+        
+        for(int i=0; i<nList.getLength(); i++){
+            Node node = nList.item(i);
+            Element elem = (Element) node;
+            CoronaInfoSidoVo vo = new CoronaInfoSidoVo();
+            vo.setDeathCnt(Integer.parseInt(getTagValue("deathCnt", elem)));
+            vo.setDefCnt(Integer.parseInt(getTagValue("defCnt", elem)));
+            vo.setGubun(Integer.parseInt(getTagValue("gubun", elem)));
+            vo.setIncDec(Integer.parseInt(getTagValue("incDec", elem)));
+            vo.setCreisolClearCntateDt(Integer.parseInt(getTagValue("creisolClearCntateDt", elem)));
+            vo.setIsolIngCnt(Integer.parseInt(getTagValue("isolIngCnt", elem)));
+            vo.setLocalOccCnt(Integer.parseInt(getTagValue("localOccCnt", elem)));
+            vo.setOverFlowCnt(Integer.parseInt(getTagValue("overFlowCnt", elem)));
+            // String to Date
+            Date dt = new Date();
+            SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dt = dtFormat.parse(getTagValue("createDt", elem));
+            vo.setCreateDt(dt);
+            s_service.insertCoronaInfoSido(vo);
+        }
 
         return resultMap;
     }
