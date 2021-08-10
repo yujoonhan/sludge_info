@@ -92,6 +92,34 @@ public class CoronaAPIController {
         return resultMap;
     }
 
+    @GetMapping("/api/corona/sido")
+    public Map<String, Object> getCoronaInfoSido() throws Exception {
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        StringBuilder urlBuilder = new StringBuilder("http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson"); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=3CID6KRU4kjF4jvHanoFBLwycg6Htt86aVfgEOgBmAecshZIcO5EC9UM9FhVGwAX2Zf%2B%2FrxgsJeUfled1zNS0w%3D%3D"); /*Service Key*/
+        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("1000", "UTF-8")); /*한 페이지 결과 수*/
+        urlBuilder.append("&" + URLEncoder.encode("startCreateDt","UTF-8") + "=" + URLEncoder.encode("20210810", "UTF-8")); /*검색할 생성일 범위의 시작*/
+        urlBuilder.append("&" + URLEncoder.encode("endCreateDt","UTF-8") + "=" + URLEncoder.encode("20210810", "UTF-8")); /*검색할 생성일 범위의 종료*/
+        
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        Document doc = docBuilder.parse(urlBuilder.toString());
+
+        doc.getDocumentElement().normalize();
+        NodeList nList = doc.getElementsByTagName("item");
+
+        return resultMap;
+    }
+    // http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson
+    // ?serviceKey=3CID6KRU4kjF4jvHanoFBLwycg6Htt86aVfgEOgBmAecshZIcO5EC9UM9FhVGwAX2Zf%2B%2FrxgsJeUfled1zNS0w%3D%3D
+    // &pageNo=1
+    // &numOfRows=10
+    // &startCreateDt=20210810
+    // &endCreateDt=20210810
+
+
+
     public static String getTagValue(String tag, Element elem) {
         NodeList nList = elem.getElementsByTagName(tag).item(0).getChildNodes();
         if(nList == null) return null;
