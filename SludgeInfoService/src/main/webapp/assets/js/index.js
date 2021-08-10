@@ -1,4 +1,32 @@
 $(function(){
+
+    $.ajax({
+        type:"get",
+        url:"/api/coronaInfo/today",
+        success:function(r){
+            console.log(r);
+            $("#accExamCnt").html(r.data.strAccExamCnt);
+            $("#decideCnt").html(r.data.strDecideCnt);
+            let ctx2 = $("#confirmed_chart");
+            let confirmed_chart = new Chart(ctx2, {
+                type:"pie",
+                options:{
+                    responsive:false
+                },
+                data:{
+                    labels:["확진", "음성"],
+                    datasets:[
+                        {
+                            label:"확진/음성",
+                            data:[r.data.decideCnt, r.data.examCnt - r.data.decideCnt],
+                            backgroundColor:["rgba(255, 0, 0, 0.4)", "rgba(0, 0, 255, 0.4)"]
+                        }
+                    ]
+                }
+            });
+        }
+    })
+
     let ctx = $("#regional_status");
     let regionalChart = new Chart(ctx, {
         type:'bar',
@@ -17,23 +45,23 @@ $(function(){
         }
     });
 
-    let ctx2 = $("#confirmed_chart");
-    let confirmed_chart = new Chart(ctx2, {
-        type:"pie",
-        options:{
-            responsive:false
-        },
-        data:{
-            labels:["확진", "음성"],
-            datasets:[
-                {
-                    label:"확진/음성",
-                    data:[100, 200],
-                    backgroundColor:["rgba(255, 0, 0, 0.4)", "rgba(0, 0, 255, 0.4)"]
-                }
-            ]
-        }
-    });
+    // let ctx2 = $("#confirmed_chart");
+    // let confirmed_chart = new Chart(ctx2, {
+    //     type:"pie",
+    //     options:{
+    //         responsive:false
+    //     },
+    //     data:{
+    //         labels:["확진", "음성"],
+    //         datasets:[
+    //             {
+    //                 label:"확진/음성",
+    //                 data:[100, 200],
+    //                 backgroundColor:["rgba(255, 0, 0, 0.4)", "rgba(0, 0, 255, 0.4)"]
+    //             }
+    //         ]
+    //     }
+    // });
 
     let ctx3 = $("#vaccine_chart");
     let vaccineChart = new Chart(ctx3, {
