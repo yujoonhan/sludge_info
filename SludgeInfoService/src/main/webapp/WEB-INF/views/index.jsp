@@ -5,6 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <title>코로나 정보 대시보드</title>
+    <script>
+        // 자바스크림트에서 날짜 표시하기
+        let date = new Date();
+        let strDate = date.getFullYear()+"-"+leadingZero(date.getMonth()+1+"-"
+            +leadingZero(date.getDate()));
+        document.write("<h1>"+strDate+"</h1>");
+        function leadingZero(n){
+            return n<10?"0"+n:""+n;
+        }
+    </script>
     <link rel="stylesheet" href="/assets/css/reset.css">
     <link rel="stylesheet" href="/assets/css/index.css">
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -110,28 +120,11 @@
                                 <td>신규 확진자</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>서울</td>
-                                <td>68,646</td>
-                                <td>359 ▲</td>
-                            </tr>
-                            <tr>
-                                <td>서울</td>
-                                <td>68,646</td>
-                                <td>359 ▲</td>
-                            </tr>
-                            <tr>
-                                <td>서울</td>
-                                <td>68,646</td>
-                                <td>359 ▲</td>
-                            </tr>
-                        </tbody>
                     </table>
                     <div class="region_pager_area">
-                        <button>&lt;</button>
-                        <span class="current"> 1 </span>/<span class="total">7</span>
-                        <button>&gt;</button>
+                        <button id="region_prev">&lt;</button> 
+                        <span class="current"> 1 </span>/<span class="total">6</span>
+                        <button id="region_next">&gt;</button>
                     </div>
                 </div>
             </div>

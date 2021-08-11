@@ -5,15 +5,15 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class CoronaInfoSidoVo {
+public class CoronaSidoInfoVO {
     private Integer seq;
+    private Date createDt;
     private Integer deathCnt;
     private Integer defCnt;
-    private Integer gubun;
+    private String gubun;
     private Integer incDec;
-    private Integer creisolClearCntateDt;
+    private Integer isolClearCnt;
     private Integer isolIngCnt;
     private Integer localOccCnt;
     private Integer overFlowCnt;
-    private Date createDt;
 }

@@ -53,6 +53,8 @@
 .region_pager_area .current {font-weight: 700;}
 .dashboard_content:first-child {padding-top: 0;}
 
+.region-tbody {display: none;}
+.region-tbody.active {display: table-row-group;}
 
 
 

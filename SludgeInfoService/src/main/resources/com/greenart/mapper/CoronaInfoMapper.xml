@@ -5,16 +5,45 @@
     <insert id="insertCoronaInfo">
         INSERT INTO corona_info
         (
-            accExamCnt, accExamCompCnt, careCnt, clearCnt, deathCnt, 
-            decideCnt, examCnt, resultNegCnt, stateTime
+            seq,accExamCnt,accExamCompCnt,careCnt,clearCnt,deathCnt,decideCnt,
+            examCnt,resultNegCnt,stateTime
         )
         VALUES
         (
-            #{accExamCnt}, #{accExamCompCnt}, #{careCnt}, #{clearCnt}, #{deathCnt}, 
-            #{decideCnt}, #{examCnt}, #{resultNegCnt}, #{stateTime}
+            #{seq},#{accExamCnt},#{accExamCompCnt},#{careCnt},#{clearCnt},#{deathCnt},#{decideCnt},
+            #{examCnt},#{resultNegCnt},#{stateTime}
         );
     </insert>
-    <select id="selectCoronaInfoByDate" resultType="com.greenart.vo.CoronaInfoVO">
-        select * from corona_info where stateTime >= str_to_date(#{date}, "%Y-%m-%d") LIMIT 1
+    <insert id="insertCoronaSidoInfo">
+        INSERT INTO corona_sido
+        (
+            createDt, deathCnt, defCnt, gubun, incDec, isolClearCnt, 
+            isolIngCnt, localOccCnt, overFlowCnt
+        )
+        VALUES(
+            #{createDt}, #{deathCnt}, #{defCnt}, #{gubun}, #{incDec}, #{isolClearCnt}, 
+            #{isolIngCnt}, #{localOccCnt}, #{overFlowCnt}
+        );
+    </insert>
+    <select id="selectCoronaSidoInfo" resultType="com.greenart.vo.CoronaSidoInfoVO">
+        select * from corona_sido 
+        where date_format(createDt, "%Y-%m-%d") = str_to_date(#{date}, "%Y-%m-%d")
+        and gubun != '합계'
+    </select>
+
+    <insert id="insertCoronaAgeInfo">
+        INSERT INTO corona_age
+        (
+            confCase, confCaseRate, criticalRate, death, deathRate, gubun, createDt
+            )
+        VALUES
+        (
+            #{confCase}, #{confCaseRate}, #{criticalRate}, #{death}, #{deathRate}, #{gubun}, #{createDt}
+            );
+    </insert>
+    <select id="selectCoronaAgeInfo" resultType="com.greenart.vo.CoronaAgeInfoVO">
+        select * from corona_age 
+        where date_format(createDt, "%Y-%m-%d") = str_to_date(#{date}, "%Y-%m-%d")
+        and gubun != '남성' and gubun != '여성'
     </select>
 </mapper>
