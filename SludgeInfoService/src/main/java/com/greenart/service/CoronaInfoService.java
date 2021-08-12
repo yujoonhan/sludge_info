@@ -4,12 +4,15 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.greenart.mapper.CoronaInfoMapper;
 import com.greenart.vo.CoronaAgeInfoVO;
 import com.greenart.vo.CoronaInfoVO;
 import com.greenart.vo.CoronaSidoInfoVO;
+import com.greenart.vo.CoronaVaccineInfoVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,12 +86,13 @@ public class CoronaInfoService {
         mapper.insertCoronaAgeInfo(vo);
     }
 
-    public List<CoronaAgeInfoVO> selectTodayCoronaAgeInfo(){
+    public Map<String, Object> selectTodayCoronaAgeInfo(){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         Calendar now = Calendar.getInstance();
         Calendar standard = Calendar.getInstance();
-        standard.set(Calendar.HOUR_OF_DAY, 10);
-        standard.set(Calendar.MINUTE, 30);
-        standard.set(Calendar.SECOND, 10);
+        standard.set(Calendar.HOUR_OF_DAY, 15);
+        standard.set(Calendar.MINUTE, 00);
+        standard.set(Calendar.SECOND, 00);
 
         if(now.getTimeInMillis() < standard.getTimeInMillis()) {
             // 현재 접속시간이 기준시간 (10시 30분 10초)보다 이전일때 전날 정보를 가져온다
@@ -97,11 +101,56 @@ public class CoronaInfoService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dt = formatter.format(now.getTime());
 
-        return mapper.selectCoronaAgeInfo(dt);
+        resultMap.put("dt", dt);
+        resultMap.put("data", mapper.selectCoronaAgeInfo(dt));
+
+        return resultMap;
+    }
+
+    public List<CoronaAgeInfoVO> selectTodayCoronaGenInfo(){
+        Calendar now = Calendar.getInstance();
+        Calendar standard = Calendar.getInstance();
+        standard.set(Calendar.HOUR_OF_DAY, 15);
+        standard.set(Calendar.MINUTE, 00);
+        standard.set(Calendar.SECOND, 00);
+
+        if(now.getTimeInMillis() < standard.getTimeInMillis()) {
+            // 현재 접속시간이 기준시간 (10시 30분 10초)보다 이전일때 전날 정보를 가져온다
+            now.add(Calendar.DATE, -1);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dt = formatter.format(now.getTime());
+        return mapper.selectCoronaGenInfo(dt);
     }
 
     public List<CoronaAgeInfoVO> selectCoronaAgeInfo(String date){
         return mapper.selectCoronaAgeInfo(date);
     }
+    public List<CoronaAgeInfoVO> selectCoronaGenInfo(String date){
+        return mapper.selectCoronaGenInfo(date);
+    }
 
+    public void insertCoronaVaccineInfo(CoronaVaccineInfoVO vo) {
+        mapper.insertCoronaVaccineInfo(vo);
+    }
+
+    public List<CoronaVaccineInfoVO> selectTodayCoronaVaccineInfo(){
+        Calendar now = Calendar.getInstance();
+        Calendar standard = Calendar.getInstance();
+        standard.set(Calendar.HOUR_OF_DAY, 11);
+        standard.set(Calendar.MINUTE, 00);
+        standard.set(Calendar.SECOND, 00);
+
+        if(now.getTimeInMillis() < standard.getTimeInMillis()) {
+            now.add(Calendar.DATE, -1);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dt = formatter.format(now.getTime());
+
+        return mapper.selectCoronaVaccineInfo(dt);
+    }
+
+    public List<CoronaVaccineInfoVO> selectCoronaVaccineInfo(String date){
+        return mapper.selectCoronaVaccineInfo(date);
+    }
 }

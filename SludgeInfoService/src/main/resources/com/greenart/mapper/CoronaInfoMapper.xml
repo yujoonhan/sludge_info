@@ -5,28 +5,32 @@
     <insert id="insertCoronaInfo">
         INSERT INTO corona_info
         (
-            seq,accExamCnt,accExamCompCnt,careCnt,clearCnt,deathCnt,decideCnt,
-            examCnt,resultNegCnt,stateTime
+            accExamCnt, accExamCompCnt, careCnt, clearCnt, deathCnt, decideCnt, examCnt, resultNegCnt, stateTime
         )
         VALUES
         (
-            #{seq},#{accExamCnt},#{accExamCompCnt},#{careCnt},#{clearCnt},#{deathCnt},#{decideCnt},
-            #{examCnt},#{resultNegCnt},#{stateTime}
+            #{accExamCnt}, #{accExamCompCnt}, #{careCnt}, #{clearCnt}, 
+            #{deathCnt}, #{decideCnt}, #{examCnt}, #{resultNegCnt}, #{stateTime}
         );
     </insert>
+    <select id="selectCoronaInfoByDate" resultType="com.greenart.vo.CoronaInfoVO">
+        select * from corona_info where stateTime >= str_to_date(#{date}, "%Y-%m-%d") LIMIT 1
+    </select>
+
     <insert id="insertCoronaSidoInfo">
         INSERT INTO corona_sido
         (
-            createDt, deathCnt, defCnt, gubun, incDec, isolClearCnt, 
-            isolIngCnt, localOccCnt, overFlowCnt
+            createDt, deathCnt, defCnt, gubun, incDec, 
+            isolClearCnt, isolIngCnt, localOccCnt, overFlowCnt
         )
-        VALUES(
-            #{createDt}, #{deathCnt}, #{defCnt}, #{gubun}, #{incDec}, #{isolClearCnt}, 
-            #{isolIngCnt}, #{localOccCnt}, #{overFlowCnt}
-        );
+        VALUES
+        (
+            #{createDt}, #{deathCnt}, #{defCnt}, #{gubun}, #{incDec}, 
+            #{isolClearCnt}, #{isolIngCnt}, #{localOccCnt}, #{overFlowCnt}
+        )
     </insert>
     <select id="selectCoronaSidoInfo" resultType="com.greenart.vo.CoronaSidoInfoVO">
-        select * from corona_sido 
+        select * from corona_sido
         where date_format(createDt, "%Y-%m-%d") = str_to_date(#{date}, "%Y-%m-%d")
         and gubun != '합계'
     </select>
@@ -35,15 +39,35 @@
         INSERT INTO corona_age
         (
             confCase, confCaseRate, criticalRate, death, deathRate, gubun, createDt
-            )
+        )
         VALUES
         (
             #{confCase}, #{confCaseRate}, #{criticalRate}, #{death}, #{deathRate}, #{gubun}, #{createDt}
-            );
+        );
     </insert>
     <select id="selectCoronaAgeInfo" resultType="com.greenart.vo.CoronaAgeInfoVO">
         select * from corona_age 
-        where date_format(createDt, "%Y-%m-%d") = str_to_date(#{date}, "%Y-%m-%d")
-        and gubun != '남성' and gubun != '여성'
+        where gubun != '여성' and gubun != '남성'
+        and date_format(createDt, "%Y-%m-%d") = str_to_date(#{date}, "%Y-%m-%d")
+    </select>
+    <select id="selectCoronaGenInfo" resultType="com.greenart.vo.CoronaAgeInfoVO">
+        select * from corona_age 
+        where (gubun = '여성' or gubun = '남성')
+	    and date_format(createDt, "%Y-%m-%d") = str_to_date('2021-08-09', "%Y-%m-%d");
+    </select>
+    <insert id="insertCoronaVaccineInfo">
+        INSERT INTO corona_vaccine
+        (
+            accFirstCnt, accSecondCnt, regDt, firstCnt, secondCnt, sido
+        )
+        VALUES
+        (
+            #{accFirstCnt}, #{accSecondCnt}, #{regDt}, #{firstCnt}, #{secondCnt}, #{sido}
+        );
+    </insert>
+    <select id="selectCoronaVaccineInfo" resultType="com.greenart.vo.CoronaVaccineInfoVO">
+        select * from corona_vaccine 
+        where date_format(regDt, '%Y-%m-%d') = str_to_date('2021-08-12', '%Y-%m-%d')
+        and sido != '전국'
     </select>
 </mapper>
