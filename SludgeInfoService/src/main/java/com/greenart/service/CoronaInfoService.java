@@ -90,10 +90,9 @@ public class CoronaInfoService {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         Calendar now = Calendar.getInstance();
         Calendar standard = Calendar.getInstance();
-        standard.set(Calendar.HOUR_OF_DAY, 15);
-        standard.set(Calendar.MINUTE, 00);
+        standard.set(Calendar.HOUR_OF_DAY, 16);
+        standard.set(Calendar.MINUTE, 10);
         standard.set(Calendar.SECOND, 00);
-
         if(now.getTimeInMillis() < standard.getTimeInMillis()) {
             // 현재 접속시간이 기준시간 (10시 30분 10초)보다 이전일때 전날 정보를 가져온다
             now.add(Calendar.DATE, -1);
@@ -110,10 +109,9 @@ public class CoronaInfoService {
     public List<CoronaAgeInfoVO> selectTodayCoronaGenInfo(){
         Calendar now = Calendar.getInstance();
         Calendar standard = Calendar.getInstance();
-        standard.set(Calendar.HOUR_OF_DAY, 15);
-        standard.set(Calendar.MINUTE, 00);
+        standard.set(Calendar.HOUR_OF_DAY, 16);
+        standard.set(Calendar.MINUTE, 10);
         standard.set(Calendar.SECOND, 00);
-
         if(now.getTimeInMillis() < standard.getTimeInMillis()) {
             // 현재 접속시간이 기준시간 (10시 30분 10초)보다 이전일때 전날 정보를 가져온다
             now.add(Calendar.DATE, -1);
