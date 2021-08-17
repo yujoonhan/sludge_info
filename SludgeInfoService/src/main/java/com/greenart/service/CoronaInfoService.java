@@ -37,11 +37,23 @@ public class CoronaInfoService {
         // 2021-08-11 13:00:00 - 잡속시간
         // 현재시간이 세팅값보다 이전이라면 전 날 데이터를 뽑아주고
         // 현재시간이 세팅값보다 나중이라면 오늘 데이터를 뽑아준다
-        Date now = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String date = formatter.format(now);
+        Calendar now = Calendar.getInstance();
+        Calendar standard = Calendar.getInstance();
+        standard.set(Calendar.HOUR_OF_DAY, 10);
+        standard.set(Calendar.MINUTE, 30);
+        standard.set(Calendar.SECOND, 00);
 
-        CoronaInfoVO data = mapper.selectCoronaInfoByDate(date);
+        if(now.getTimeInMillis() < standard.getTimeInMillis()) {
+            // 하루 이전날짜로 변경
+            now.add(Calendar.DATE, -1);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dt = formatter.format(now.getTime());
+        // Date now = new Date();
+        // SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        // String date = formatter.format(now);
+
+        CoronaInfoVO data = mapper.selectCoronaInfoByDate(dt);
 
         Integer accExamCnt = data.getAccExamCnt();
         Integer decideCnt = data.getDecideCnt();

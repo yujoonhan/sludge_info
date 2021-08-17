@@ -3,11 +3,17 @@
     box-sizing: border-box; padding-left: 20px;
 }
 .right_area > div {
-    width: 100%; background-color: #abf;
+    width: 100%; 
+    /* background-color: #abf; */
     margin-bottom: 20px; position: relative;
 }
 
-.content_area, .content_head {font-family: "Noto Sans KR", sans-serif;}
+.content_area, .content_head {font-family: "Noto Sans KR", sans-serif; position: relative;}
+.content_head #date {
+    position: absolute; right: 0; top: 0; font-family: "Roboto", sans-serif;
+    font-weight: 700; font-size: 20px; width: 110px; padding: 12px; border: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); outline: none;
+}
 .content_area > div {
     display: inline-block; vertical-align: top; text-align: center;
     padding: 30px; box-sizing: border-box; background-color: #fff;
@@ -22,7 +28,7 @@
 .content_area:nth-child(3) > div {width: calc((100% - 60px) / 4);}
 .content_area:nth-child(3) > div:last-child {width: calc((100% - 60px) / 2 + 20px);}
 .content_area:nth-child(4) > div {width: calc((100% - 60px) / 4);}
-.content_area:nth-child(4) > div:first-child {width: calc((100% - 60px) / 2 + 20px);}
+.content_area:nth-child(4) > div {width: calc((100% - 60px) / 2 + 20px);}
 
 .content_head select {
     padding: 10px 15px; font-family: "Noto Sans KR", sans-serif; font-size: 16px;
@@ -33,8 +39,15 @@
 .content_head .distance_level {font-weight: 900; margin-left: 0;}
 
 .content_area h1 {font-size: 20px; font-weight: 700;}
-.content_area > canvas {height: 300px; width: 100%; background-color: #fab;}
+.content_area > canvas {height: 300px; width: 100%; 
+    /* background-color: #fab; */
+}
 
 .content_area:last-child > div {
     width: calc((100% - 20px) / 2); height: 250px; box-shadow: none;
 }
+
+.chart_content {height: 350px;}
+
+
+
