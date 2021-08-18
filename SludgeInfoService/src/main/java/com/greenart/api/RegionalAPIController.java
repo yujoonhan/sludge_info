@@ -18,6 +18,7 @@ import com.greenart.vo.VaccineWeeksVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -114,6 +115,16 @@ public class RegionalAPIController {
         resultMap.put("data", vo);
         resultMap.put("formattedFirstCnt", formattedFirstCnt);
         resultMap.put("formattedSecondCnt", formattedSecondCnt);
+        return resultMap;
+    }
+
+    @GetMapping("/api/vaccine/{date}")
+    public Map<String, Object> getVaccineInfoByDate(@PathVariable String date) {
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+        List<VaccineWeeksVO> list = service.selectVaccineInfo(date);
+        resultMap.put("vaccineList", list);
+
         return resultMap;
     }
 }

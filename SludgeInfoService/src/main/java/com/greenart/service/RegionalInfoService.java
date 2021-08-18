@@ -34,4 +34,7 @@ public class RegionalInfoService {
     public List<VaccineWeeksVO> selectRegionalVaccineTwoWeeks(String region, String date){
         return mapper.selectRegionalVaccineTwoWeeks(region, date);
     }
+    public List<VaccineWeeksVO> selectVaccineInfo(String date) {
+        return mapper.selectVaccineInfo(date);
+    }
 }

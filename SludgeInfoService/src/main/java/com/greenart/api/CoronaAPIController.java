@@ -38,7 +38,6 @@ import org.w3c.dom.NodeList;
 public class CoronaAPIController {
     @Autowired
     CoronaInfoService service;
-
     @GetMapping("/api/corona")
     public Map<String, Object> getCoronaInfo(
         @RequestParam String startDt, @RequestParam String endDt
